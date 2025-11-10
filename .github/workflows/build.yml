@@ -95,7 +95,10 @@ jobs:
     - name: Sync OFRP source
       run: |
         git clone https://gitlab.com/OrangeFox/sync.git -b master
-        ./sync/orangefox_sync.sh --branch 14.1 --path $(pwd)
+        WORKINGDIR=$(pwd)
+        cd sync
+        ./orangefox_sync.sh --branch 14.1 --path $WORKINGDIR
+        cd $WORKINGDIR
 
     - name: Setup device
       run: |
