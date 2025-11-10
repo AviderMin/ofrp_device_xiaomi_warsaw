@@ -84,13 +84,16 @@ jobs:
         git config --global user.name ${{ github.actor }}
         git config --global user.email ${{ github.actor }}@users.noreply.github.com
 
-    - name: Sync source
+    - name: Sync TWRP source
       run: |
         repo init -u https://github.com/nebrassy/platform_manifest_twrp_aosp.git -b twrp-14 --depth=1
         (while true; do echo "Syncing source..."; sleep 60; done) &
         TIP_PID=$!
         repo sync
         kill $TIP_PID && exit 0
+
+    - name: Sync OFRP source
+      run: |
         git clone https://gitlab.com/OrangeFox/sync.git -b master
         ./sync/orangefox_sync.sh --branch 14.1 --path $(pwd)
 
