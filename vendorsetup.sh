@@ -95,8 +95,6 @@ if [ -n "$FOX_USE_SPECIFIC_MAGISK_ZIP" ]; then
         echo -e "${ORANGE}-- Downloading...${NC}"
         mkdir -p /tmp/misc
         wget -O /tmp/misc/Magisk-v29.0.zip https://github.com/topjohnwu/Magisk/releases/download/v29.0/Magisk-v29.0.apk
-        mkdir -p /home/adontoo/android
-        cp /tmp/misc/Magisk-v29.0.zip /home/adontoo/android/
         echo -e "${BLUE}-- Successfully Downloaded the Magisk.zip File \"$OF_MAGISK\" ...${NC}"
         echo -e "${PURPLE}-- Using A Custom Magisk.zip from the Downloaded file \"$OF_MAGISK\" ...${NC}"
         echo -e "${GREEN}-- Done!"
