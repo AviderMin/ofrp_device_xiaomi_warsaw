@@ -72,7 +72,7 @@ on property:twrp.variant.files_copied=1
     start odm.touch_report
     start odm.weaver-service
     start odm.keymint-strongbox
-    start odm.se_omapi
+    start se_omapi
 
 on property:hwservicemanager.ready=true
     setprop sys.boot_completed 1
