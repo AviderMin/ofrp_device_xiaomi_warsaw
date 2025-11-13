@@ -59,7 +59,7 @@ export OF_OPTIONS_LIST_NUM=6
 export OF_USE_DMCTL=1
 export OF_USE_AIDL_BOOT_CONTROL=1
 # For Xiaomi SM8750
-export FOX_VARIANT="Xiaomi_SM8750"
+export FOX_VARIANT="Xiaomi_SM8750_thales"
 export FOX_MAINTAINER_PATCH_VERSION=$(date +%y%m%d)
 export OF_MAINTAINER="Adontoo"
 export OF_MAGISK="/tmp/misc/Magisk-v29.0.zip"
