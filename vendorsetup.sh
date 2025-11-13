@@ -71,7 +71,7 @@ export OF_STATUS_INDENT_RIGHT=30
 export OF_HIDE_NOTCH=1
 export OF_ALLOW_DISABLE_NAVBAR=0
 
-F=$(find "device" -maxdepth 2 -name "sm8750")
+F=$(find "device" -maxdepth 2 -name "sm8750_thales")
 # Change splash to black
 \cp -fp bootable/recovery/gui/theme/portrait_hdpi/splash.xml "$F"/recovery/root/twres/splash.xml
 sed -i 's/value="#D34E38"/value="#000000"/g' "$F"/recovery/root/twres/splash.xml
