@@ -104,6 +104,12 @@ jobs:
       run: |
         git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} device/${{ github.event.inputs.DEVICE_PATH }}
 
+    - name: Apply patches
+      run: |
+        cd $WORKINGDIR/bootable/recovery
+        git apply ../../device/${{ github.event.inputs.DEVICE_PATH }}/patches/*.patch
+        cd $WORKINGDIR
+
     - name: Generate build info
       run: |
         echo -e "$BUILD_INFO" >> INFO.txt
