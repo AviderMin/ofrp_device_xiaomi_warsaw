@@ -110,6 +110,7 @@ jobs:
         cd $WORKINGDIR/bootable/recovery
         git apply $WORKINGDIR/device/${{ github.event.inputs.DEVICE_PATH }}/patches/*.patch
         cd $WORKINGDIR
+        git clone https://github.com/adontoo/android_external_libmicrohttpd external/libmicrohttpd
 
     - name: Generate build info
       run: |
