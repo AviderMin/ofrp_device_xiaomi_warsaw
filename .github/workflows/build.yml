@@ -106,8 +106,9 @@ jobs:
 
     - name: Apply patches
       run: |
+        WORKINGDIR=$(pwd)
         cd $WORKINGDIR/bootable/recovery
-        git apply ../../device/${{ github.event.inputs.DEVICE_PATH }}/patches/*.patch
+        git apply $WORKINGDIR/device/${{ github.event.inputs.DEVICE_PATH }}/patches/*.patch
         cd $WORKINGDIR
 
     - name: Generate build info
