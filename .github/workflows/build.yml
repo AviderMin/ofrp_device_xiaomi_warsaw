@@ -111,6 +111,8 @@ jobs:
         git apply $WORKINGDIR/device/${{ github.event.inputs.DEVICE_PATH }}/patches/*.patch
         cd $WORKINGDIR
         git clone https://github.com/adontoo/android_external_libmicrohttpd external/libmicrohttpd
+        rm -rf bionic
+        git clone https://github.com/adontoo/OrangeFox-android_platform_bionic bionic
 
     - name: Generate build info
       run: |
