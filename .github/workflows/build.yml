@@ -104,16 +104,6 @@ jobs:
       run: |
         git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} device/${{ github.event.inputs.DEVICE_PATH }}
 
-    - name: Apply patches
-      run: |
-        WORKINGDIR=$(pwd)
-        cd $WORKINGDIR/bootable/recovery
-        git apply $WORKINGDIR/device/${{ github.event.inputs.DEVICE_PATH }}/patches/*.patch
-        cd $WORKINGDIR
-        git clone https://github.com/adontoo/android_external_libmicrohttpd -b ofox-14.1 external/libmicrohttpd
-        rm -rf bionic
-        git clone https://github.com/adontoo/OrangeFox-android_platform_bionic bionic
-
     - name: Generate build info
       run: |
         echo -e "$BUILD_INFO" >> INFO.txt
