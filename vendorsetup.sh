@@ -32,7 +32,7 @@ export OF_NO_RELOAD_AFTER_DECRYPTION=1
 export OF_NO_TREBLE_COMPATIBILITY_CHECK=1
 export FOX_DELETE_AROMAFM=1
 export OF_USE_GREEN_LED=0
-export TARGET_DEVICE_ALT="dada,haotian,xuanyuan"
+# export TARGET_DEVICE_ALT removed - warsaw only
 export FOX_VANILLA_BUILD=1
 export OF_NO_MIUI_PATCH_WARNING=1
 export OF_DISABLE_MIUI_OTA_BY_DEFAULT=1
@@ -62,7 +62,7 @@ export FOX_ENABLE_KERNELSU_SUPPORT=1
 export FOX_ENABLE_KERNELSU_NEXT_SUPPORT=1
 export FOX_ENABLE_SUKISU_SUPPORT=1
 # For Xiaomi SM8750
-export FOX_VARIANT="Xiaomi_SM8750_thales"
+export FOX_VARIANT="Xiaomi_warsaw"
 export FOX_MAINTAINER_PATCH_VERSION=$(date +%y%m%d)
 export OF_MAINTAINER="Adontoo"
 export OF_MAGISK="/tmp/misc/Magisk-v29.0.zip"
@@ -74,7 +74,7 @@ export OF_STATUS_INDENT_RIGHT=30
 export OF_HIDE_NOTCH=1
 export OF_ALLOW_DISABLE_NAVBAR=0
 
-F=$(find "device" -maxdepth 2 -name "sm8750_thales")
+F=$(find "device" -maxdepth 2 -name "warsaw")
 # Change splash to black
 \cp -fp bootable/recovery/gui/theme/portrait_hdpi/splash.xml "$F"/recovery/root/twres/splash.xml
 sed -i 's/value="#D34E38"/value="#000000"/g' "$F"/recovery/root/twres/splash.xml

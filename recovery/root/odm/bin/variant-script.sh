@@ -1,11 +1,10 @@
 #!/system/bin/sh
 #=================================================
-# Auto-set device properties based on hardware SKU
+# Set device properties for Redmi K90 Ultra (warsaw)
 #=================================================
 set -e
 
-variant=$(getprop ro.boot.hardware.sku)
-base_name="Xiaomi 15"
+model="Redmi K90 Ultra"
 log_file="/tmp/recovery.log"
 
 log() {
@@ -13,54 +12,17 @@ log() {
 }
 
 #-------------------------------------------------
-# Helper: set multiple vibrator-related properties
+# Set vibrator-related properties
 #-------------------------------------------------
-set_vibrator_props() {
-    resetprop ro.odm.mm.vibrator.audio_haptic_support "true"
-    resetprop ro.odm.mm.vibrator.resonant_frequency "$1"
-    resetprop ro.odm.mm.vibrator.slide_effect_protect_time "$2"
-    resetprop ro.odm.mm.vibrator.sys_path "$3"
-    resetprop ro.odm.mm.vibrator.device_type "$4"
-    resetprop ro.vendor.mm.vibrator.sys_path "/sys/class/qcom-haptics"
-}
+resetprop ro.odm.mm.vibrator.audio_haptic_support "true"
+resetprop ro.odm.mm.vibrator.resonant_frequency "170"
+resetprop ro.odm.mm.vibrator.slide_effect_protect_time "35"
+resetprop ro.odm.mm.vibrator.sys_path "/sys/class/qcom-haptics"
+resetprop ro.odm.mm.vibrator.device_type "agm"
+resetprop ro.vendor.mm.vibrator.sys_path "/sys/class/qcom-haptics"
 
 #-------------------------------------------------
-# Variant-specific configuration
-#-------------------------------------------------
-case "$variant" in
-"dada")
-    model="$base_name"
-    resetprop vendor.display.enable_spr "1"
-    set_vibrator_props "170" "35" "/sys/class/qcom-haptics" "agm"
-    ;;
-
-"haotian")
-    model="$base_name Pro"
-    resetprop vendor.display.enable_spr "1"
-    resetprop ro.odm.mm.vibrator.cirrus "true"
-    resetprop ro.odm.mm.vibrator.lowPowerMode "true"
-    set_vibrator_props "130" "20" "/sys/bus/i2c/drivers/cs40l26/0-0043" "agm"
-    ;;
-
-"xuanyuan")
-    model="$base_name Ultra"
-    resetprop ro.odm.mm.vibrator.he1.0 "mihaptic"
-    set_vibrator_props "170" "20" "/sys/class/qcom-haptics" "agm"
-    ;;
-
-*)
-    #-----------------------------------------
-    # Default configuration
-    #-----------------------------------------
-    log "Unknown variant: $variant, applying default configuration (SM8750)"
-    variant="SM8750"
-    model="SM8750"
-    set_vibrator_props "170" "35" "/sys/class/qcom-haptics" "agm"
-    ;;
-esac
-
-#-------------------------------------------------
-# Common configuration
+# USB product string
 #-------------------------------------------------
 echo "$model" >/config/usb_gadget/g1/strings/0x409/product
 
@@ -94,7 +56,7 @@ model_props=(
 )
 
 for prop in "${device_props[@]}"; do
-    resetprop "$prop" "$variant"
+    resetprop "$prop" "warsaw"
 done
 
 for prop in "${model_props[@]}"; do
@@ -102,14 +64,7 @@ for prop in "${model_props[@]}"; do
 done
 
 #-------------------------------------------------
-# Copy variant-specific files
-#-------------------------------------------------
-cp -rf /odm/variant/$variant/odm/* /odm
-chmod -R 755 /odm/bin/*
-setprop twrp.variant.files_copied "1"
-
-#-------------------------------------------------
 # Done
 #-------------------------------------------------
-log "Applied variant props for: $model ($variant)"
+log "Applied device props for: $model (warsaw)"
 exit 0
