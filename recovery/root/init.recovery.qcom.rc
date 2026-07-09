@@ -48,6 +48,8 @@ on fs
     mkdir /tmp/persist 0775 shell system
     mount none /tmp/persist /mnt/vendor/persist bind rec
     install_keyring
+    # Mount modem firmware for GP TEE (ssgtzd/qwes/haventkn needs this before early-boot)
+    mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /vendor/firmware_mnt ro
 
 on post-fs
     start odm.variant-script
