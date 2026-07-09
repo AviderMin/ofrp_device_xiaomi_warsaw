@@ -49,6 +49,7 @@ on fs
     mount none /tmp/persist /mnt/vendor/persist bind rec
     install_keyring
     # Mount modem firmware for GP TEE (ssgtzd/qwes/haventkn needs this before early-boot)
+    mkdir /vendor/firmware_mnt 0755 system system
     mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /vendor/firmware_mnt ro
 
 on post-fs
@@ -82,6 +83,10 @@ on property:twrp.variant.files_copied=1
     start odm.se_omapi
 
 on property:crypto.ready=1
+    # Create qwesd data directory now that /data is available
+    mkdir /data/vendor/qwes 0755 system system
+    # Start qwesd after directory is ready (needed for weaver TA)
+    start vendor.qwesd
     start odm.umountvendor
 
 on property:hwservicemanager.ready=true
