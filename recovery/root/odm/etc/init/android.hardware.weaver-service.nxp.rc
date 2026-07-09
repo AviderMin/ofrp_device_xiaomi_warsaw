@@ -1,0 +1,9 @@
+# Adapted for recovery: TEE is not available in recovery mode.
+# Uses libweaver_empty-nxp.so which works without TEE.
+service vendor.weaver_nxp /odm/bin/hw/android.hardware.weaver-service.nxp-qti
+    class hal
+    user root
+    group root
+    disabled
+    setenv LD_LIBRARY_PATH /odm/lib64:/vendor/lib64:/vendor/lib64/hw:/system/lib64:/sbin
+    seclabel u:r:recovery:s0

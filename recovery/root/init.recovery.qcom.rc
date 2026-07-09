@@ -48,9 +48,6 @@ on fs
     mkdir /tmp/persist 0775 shell system
     mount none /tmp/persist /mnt/vendor/persist bind rec
     install_keyring
-    # Mount modem firmware for GP TEE (ssgtzd/qwes/haventkn needs this before early-boot)
-    mkdir /vendor/firmware_mnt 0755 system system
-    mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /vendor/firmware_mnt ro
 
 on post-fs
     start odm.variant-script
@@ -62,9 +59,6 @@ on property:twrp.modules.loaded=true
     # Mount firmware
     mkdir /firmware
     mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
-    # Mount firmware_mnt for ssgtzd (GP TEE firmware)
-    mkdir /vendor/firmware_mnt 0755 system system
-    mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /vendor/firmware_mnt ro
     # Load ADSP firmware for PMIC
     wait /sys/kernel/boot_adsp/ssr
     write /sys/kernel/boot_adsp/ssr 1
@@ -80,16 +74,10 @@ on property:twrp.variant.files_copied=1
     start odm.touch_report
     start odm.keymint-strongbox
     start odm.se_omapi
+    # Use NXP empty weaver (libweaver_empty-nxp.so) - no TEE required
+    start vendor.weaver_nxp
 
 on property:crypto.ready=1
-    # Create qwesd data directory now that /data is available
-    mkdir /data/vendor/qwes 0755 system system
-    # Start qwesd after directory is ready (needed for weaver TA)
-    start vendor.qwesd
-    # Wait briefly for qwesd to initialize TEE, then restart weaver
-    # to force a fresh TEE session with the now-available GP TA
-    exec - root root -- /system/bin/sleep 1
-    restart odm.weaver-service
     start odm.umountvendor
 
 on property:hwservicemanager.ready=true
