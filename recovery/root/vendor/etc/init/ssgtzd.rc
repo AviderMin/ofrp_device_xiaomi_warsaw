@@ -6,9 +6,8 @@
 on early-boot
     start vendor.ssgtzd
 
-# Create the directories used by qwes (after data is decrypted)
-on property:crypto.ready=1
-    mkdir /data/vendor/qwes 0755 system system
+# (qwes data dir is created by init.recovery.qcom.rc at crypto.ready=1)
+# (this trigger is not exported in vendor init files, so it's in the main rc)
 
 # Used 'disabled' flag, so daemon won't be started until explicit start
 service vendor.ssgtzd /vendor/bin/ssgtzd

@@ -78,7 +78,6 @@ on property:ro.crypto.state=encrypted && property:ro.boot.dynamic_partitions=tru
 on property:twrp.variant.files_copied=1
     start odm.vibratorfeature-service
     start odm.touch_report
-    start odm.weaver-service
     start odm.keymint-strongbox
     start odm.se_omapi
 
@@ -87,6 +86,10 @@ on property:crypto.ready=1
     mkdir /data/vendor/qwes 0755 system system
     # Start qwesd after directory is ready (needed for weaver TA)
     start vendor.qwesd
+    # Wait briefly for qwesd to initialize TEE, then restart weaver
+    # to force a fresh TEE session with the now-available GP TA
+    exec - root root -- /system/bin/sleep 1
+    restart odm.weaver-service
     start odm.umountvendor
 
 on property:hwservicemanager.ready=true
