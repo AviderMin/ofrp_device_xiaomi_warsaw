@@ -59,6 +59,9 @@ on property:twrp.modules.loaded=true
     # Mount firmware
     mkdir /firmware
     mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
+    # Mount firmware_mnt for ssgtzd (GP TEE firmware)
+    mkdir /vendor/firmware_mnt 0755 system system
+    mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /vendor/firmware_mnt ro
     # Load ADSP firmware for PMIC
     wait /sys/kernel/boot_adsp/ssr
     write /sys/kernel/boot_adsp/ssr 1
