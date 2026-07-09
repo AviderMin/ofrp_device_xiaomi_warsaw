@@ -64,6 +64,11 @@ for prop in "${model_props[@]}"; do
 done
 
 #-------------------------------------------------
+# Signal init that variant setup is complete
+#-------------------------------------------------
+setprop twrp.variant.files_copied "1"
+
+#-------------------------------------------------
 # Done
 #-------------------------------------------------
 log "Applied device props for: $model (warsaw)"
