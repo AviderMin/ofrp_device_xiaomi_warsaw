@@ -1,4 +1,4 @@
-name: OFRP 14.1 Builder
+name: 🔧 OFRP 14.1 构建器
 
 on:
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
     permissions:
       contents: write
     steps:
-    - name: Show build info
+    - name: 📋 显示构建信息
       run: |
         if [ -n "${{ github.event.inputs.LUNCH_TARGET }}" ]; then
           echo "LUNCH_TARGET=${{ github.event.inputs.LUNCH_TARGET }}" >> "$GITHUB_ENV"
@@ -56,18 +56,18 @@ jobs:
         } >> "$GITHUB_ENV"
         echo BUILD_DATE=`date +%F` >> "$GITHUB_ENV"
 
-    - name: Cleanup
+    - name: 🧹 清理空间
       uses: rokibhasansagar/slimhub_actions@main
 
-    - name: Maximize build space
+    - name: 💾 最大化构建空间
       uses: easimon/maximize-build-space@master
 
-    - name: Setup ccache
+    - name: ⚡ 配置缓存
       uses: hendrikmuhs/ccache-action@v1.2
       with:
         create-symlink: true
 
-    - name: Setup zram
+    - name: 🗜️ 配置 ZRAM
       run: |
         sudo apt install linux-modules-extra-$(uname -r) zram-tools -y
         sudo modprobe zram
@@ -76,7 +76,7 @@ jobs:
         sudo systemctl restart zramswap
         zramctl
 
-    - name: Setup environment
+    - name: 🔧 配置环境
       run: |
         export DEBIAN_FRONTEND=noninteractive
         sudo apt update && sudo apt upgrade -y
@@ -84,7 +84,7 @@ jobs:
         git config --global user.name ${{ github.actor }}
         git config --global user.email ${{ github.actor }}@users.noreply.github.com
 
-    - name: Sync TWRP source
+    - name: 📥 同步 TWRP 源码
       run: |
         repo init -u https://github.com/nebrassy/platform_manifest_twrp_aosp.git -b twrp-14 --depth=1
         (while true; do echo "Syncing source..."; sleep 60; done) &
@@ -92,7 +92,7 @@ jobs:
         repo sync
         kill $TIP_PID && exit 0
 
-    - name: Sync OFRP source
+    - name: 📥 同步 OFRP 源码
       run: |
         git clone https://gitlab.com/OrangeFox/sync.git -b master
         WORKINGDIR=$(pwd)
@@ -100,11 +100,11 @@ jobs:
         ./orangefox_sync.sh --branch 14.1 --path $WORKINGDIR
         cd $WORKINGDIR
 
-    - name: Setup device
+    - name: 📱 配置设备
       run: |
         git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} device/${{ github.event.inputs.DEVICE_PATH }}
 
-    - name: Generate build info
+    - name: 📄 生成构建信息
       run: |
         echo -e "$BUILD_INFO" >> INFO.txt
         echo "Change log:" >> INFO.txt
@@ -118,7 +118,7 @@ jobs:
         cat INFO.txt
       working-directory: device/${{ github.event.inputs.DEVICE_PATH }}
 
-    - name: Build OFRP
+    - name: 🏗️ 构建 OFRP
       run: |
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
@@ -133,7 +133,7 @@ jobs:
         mv out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_PARTITION }}.img out/target/product/${{ github.event.inputs.DEVICE_NAME }}/OrangeFox-R11.3-${{ github.event.inputs.DEVICE_NAME }}-${{ env.BUILD_DATE }}.img
         kill $TIP_PID && exit 0        
 
-    - name: Upload to Release
+    - name: 📤 上传到 Release
       uses: softprops/action-gh-release@v2
       with:
         files: | 
