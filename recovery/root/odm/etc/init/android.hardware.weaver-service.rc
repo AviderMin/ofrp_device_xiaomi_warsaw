@@ -1,9 +1,6 @@
-# TEE-based weaver - disabled in favor of NXP empty weaver for recovery
-# TEE is not available in recovery mode
 service odm.weaver-service /odm/bin/hw/android.hardware.weaver-service
     class hal
     user root
     group root drmrpc
-    disabled
     setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib64/hw:/odm/lib64:/system/lib64:/sbin
     seclabel u:r:recovery:s0
